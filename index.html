@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Lin Markets</title>
+<meta name="description" content="Kalshi research bots with public track records."><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+:root{color-scheme:light;
+ --plane:#eef1f4;--surface:#fbfcfd;--ink:#13202f;--ink-2:#4a5566;--muted:#7d8794;
+ --hair:#dde2e8;--axis:#b9c1cb;--grid:#e6e9ee;
+ --model:#eb6834;--market:#2a78d6;
+ --good:#0ca30c;--good-ink:#006300;--warn:#c98500;--bad:#d03b3b;
+ --tint:#fff4ee;--demo:#fff7db}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+ --plane:#0d1117;--surface:#151b23;--ink:#e8edf3;--ink-2:#b3bdc9;--muted:#7d8794;
+ --hair:#253040;--axis:#3a4656;--grid:#1f2833;--model:#d95926;--market:#3987e5;
+ --good-ink:#0ca30c;--warn:#fab219;--tint:#2a1a12;--demo:#2b2510}}
+:root[data-theme="dark"]{color-scheme:dark;
+ --plane:#0d1117;--surface:#151b23;--ink:#e8edf3;--ink-2:#b3bdc9;--muted:#7d8794;
+ --hair:#253040;--axis:#3a4656;--grid:#1f2833;--model:#d95926;--market:#3987e5;
+ --good-ink:#0ca30c;--warn:#fab219;--tint:#2a1a12;--demo:#2b2510}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);font:16px/1.5 Barlow,system-ui,sans-serif;
+ -webkit-font-smoothing:antialiased}
+main{max-width:1120px;margin:0 auto;padding:40px 16px 64px}
+h1{font:600 clamp(2.4rem,6vw,3.6rem)/1 "Barlow Condensed",Barlow,sans-serif;margin:0;letter-spacing:-.01em}
+h1 .date{display:block;font:500 1.05rem/1.4 Barlow,sans-serif;color:var(--ink-2);margin-top:10px;letter-spacing:0}
+h2{font:600 1.7rem/1.1 "Barlow Condensed",Barlow,sans-serif;margin:0 0 14px}
+h3{font-size:1rem;font-weight:600;margin:0}
+h3.sub{margin:28px 0 4px}
+.lede{color:var(--ink-2);max-width:62ch;margin:12px 0 0}
+section{margin-top:44px}
+.notice{margin:18px 0 0;padding:10px 14px;border-left:3px solid var(--warn);background:var(--surface);
+ color:var(--ink-2);max-width:78ch}
+.notice.demo{border-color:var(--model);background:var(--demo);color:var(--ink)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--hair);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--hair);white-space:nowrap}
+th{font-size:.82rem;font-weight:500;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+tr.total td{font-weight:600;border-top:1px solid var(--axis)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.strong{font-weight:600}
+td.city{font-weight:500}
+.side{display:inline-block;white-space:nowrap;padding:2px 9px;border-radius:999px;font-size:.85rem;font-weight:600;
+ border:1px solid var(--axis)}
+.side.yes{border-color:var(--model);color:var(--ink)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-2);white-space:nowrap}
+.badge .ico{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;
+ font-size:.7rem;font-weight:700;color:#fff}
+.badge.good .ico{background:var(--good)}.badge.warn .ico{background:var(--warn);color:#13202f}
+.badge.bad .ico{background:var(--bad)}
+.fine{font-size:.86rem;color:var(--muted);max-width:78ch;margin:10px 0 0}
+.empty{color:var(--ink-2);background:var(--surface);border:1px dashed var(--axis);border-radius:10px;
+ padding:16px;max-width:78ch;margin:0}
+.empty.small{font-size:.9rem;padding:12px;margin-top:12px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px;margin-bottom:14px}
+.sec-head h2,.sec-head h3{margin:0}
+.legend{display:flex;gap:16px;list-style:none;margin:0;padding:0;font-size:.88rem;color:var(--ink-2)}
+.legend li{display:flex;align-items:center;gap:6px}
+.key{width:12px;height:12px;border-radius:3px;display:inline-block}
+.s-model-bg{background:var(--model)}.s-market-bg{background:var(--market)}
+.boards{background:var(--surface);border:1px solid var(--hair);border-radius:10px;overflow:hidden}
+.boards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin:0 -1px -1px 0}
+.board{background:var(--surface);padding:16px 16px 12px;border-right:1px solid var(--hair);
+ border-bottom:1px solid var(--hair)}
+.board.picked{background:linear-gradient(var(--tint),var(--surface) 70%)}
+.b-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.temp{display:flex;align-items:baseline;gap:10px;margin:6px 0 2px}
+.deg{font:600 3.1rem/1 "Barlow Condensed",Barlow,sans-serif;font-variant-numeric:tabular-nums}
+.range{color:var(--ink-2);font-size:.88rem}
+.vs{color:var(--muted);margin-left:4px}
+.final{margin:0 0 4px;font-size:.88rem;color:var(--ink-2)}
+.station{font-size:.78rem;color:var(--muted);margin:2px 0 0}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg .grid{stroke:var(--grid);stroke-width:1}
+svg .axis{stroke:var(--axis);stroke-width:1}
+svg .tick{fill:var(--muted);font-size:10px;font-family:Barlow,sans-serif}
+svg .xlab{fill:var(--ink-2);font-size:10.5px;font-family:Barlow,sans-serif;font-variant-numeric:tabular-nums}
+svg .pickmark{fill:var(--ink);font-size:10px;font-weight:600;font-family:Barlow,sans-serif}
+svg .s-model{fill:var(--model)} svg .s-market{fill:var(--market)}
+svg .hit{fill:transparent;cursor:default;outline:none}
+svg .hit:hover,svg .hit:focus-visible{fill:var(--ink);fill-opacity:.05}
+svg .line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+svg .line.s-model{stroke:var(--model)} svg .line.s-market{stroke:var(--market)}
+svg .dot{stroke:var(--surface);stroke-width:2}
+svg .dot.s-model{fill:var(--model)} svg .dot.s-market{fill:var(--market)}
+svg .xhair{stroke:var(--axis);stroke-width:1}
+svg .eq-hit{fill:transparent}
+.eq-wrap{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:14px 12px 8px}
+.stats{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0 0 22px;color:var(--ink-2)}
+.stats b{font:600 1.35rem/1 "Barlow Condensed",Barlow,sans-serif;color:var(--ink);margin-right:4px}
+.site-nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;
+ padding-bottom:16px;margin-bottom:36px;border-bottom:1px solid var(--hair)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;
+ font:600 1.4rem/1 "Barlow Condensed",Barlow,sans-serif}
+.brand svg{width:28px;height:28px;flex:none}
+.brand .mk-bg{fill:var(--ink)}.brand .mk-stem{fill:var(--surface)}
+.site-nav ul{display:flex;flex-wrap:wrap;gap:4px 22px;list-style:none;margin:0;padding:0}
+.site-nav a.nav{display:inline-block;color:var(--ink-2);text-decoration:none;font-weight:500;padding:6px 0;
+ border-bottom:2px solid transparent}
+.site-nav a.nav:hover{color:var(--ink)}
+.site-nav a.nav[aria-current="page"]{color:var(--ink);border-bottom-color:var(--model)}
+a{color:var(--market);text-underline-offset:2px}
+a:focus-visible,.hit:focus-visible{outline:2px solid var(--market);outline-offset:2px;border-radius:2px}
+.prose{max-width:68ch}
+.prose h2{margin:36px 0 10px}
+.prose p,.prose li{color:var(--ink-2)}
+.prose li{margin:4px 0}
+.prose strong{color:var(--ink);font-weight:600}
+#tip{position:fixed;pointer-events:none;z-index:10;background:var(--ink);color:var(--plane);
+ font-size:.82rem;padding:6px 9px;border-radius:6px;max-width:260px;opacity:0;transition:opacity .08s}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--hair);color:var(--muted);
+ font-size:.86rem;max-width:78ch}
+@media (max-width:640px){
+ .scroll.picks-wrap{overflow:visible}
+ table.picks{min-width:0}
+ table.picks thead{display:none}
+ table.picks tr{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 10px;padding:14px;
+  border-bottom:1px solid var(--hair)}
+ table.picks tbody tr:last-child{border-bottom:0}
+ table.picks td{padding:0;border:0;text-align:left;white-space:normal}
+ table.picks td.city{grid-column:1/3;font-size:1.05rem}
+ table.picks td.bracket{grid-column:3/4;text-align:right}
+ table.picks td.bet{grid-column:4/5;text-align:right}
+ table.picks td[data-label]::before{content:attr(data-label);display:block;font-size:.75rem;
+  font-weight:400;color:var(--muted)}
+ table.picks td.rec{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){#tip{transition:none}}
+.bot .desc{color:var(--ink-2);margin:8px 0}.bot .when{font-size:.88rem;color:var(--muted);margin:0}.bot .status{font-weight:600;margin:12px 0 4px}.bot .open{font-weight:600}</style></head>
+<body><main>
+<nav class="site-nav" aria-label="Site"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect class="mk-bg" width="32" height="32" rx="8" fill="#13202f"/><rect class="mk-stem" x="13" y="6" width="6" height="15" rx="3" fill="#fbfcfd"/><rect x="14.5" y="11" width="3" height="10" rx="1.5" fill="#eb6834"/><circle cx="16" cy="22.5" r="4.5" fill="#eb6834"/></svg><span>Lucas Lin Markets</span></a>
+<ul><li><a class="nav" href="/lucaslinweather/">Forecast bot</a></li><li><a class="nav" href="/weather-live/">Live bot</a></li></ul></nav>
+<header class="top"><h1>Kalshi research bots</h1>
+<p class="lede">Each bot focuses on one kind of Kalshi market, publishes its picks, and keeps a public record
+of every result, wins and losses alike. A bot is trusted in a city only after its record shows an edge over
+the market’s own prices.</p></header>
+<section><h2>Bots</h2><div class="boards"><div class="boards-grid"><article class="board bot"><div class="b-head"><h3>High temperature: forecast bot</h3></div><p class="desc">Prices every city’s daily-high market each morning from four weather models, and publishes the brackets where its expected profit beats the fee.</p><p class="when">Every morning, about 8 a.m. Eastern</p><p class="status" data-src="/lucaslinweather/picks.json" data-kind="forecast">Checking…</p><p><a class="open" href="/lucaslinweather/">Open forecast bot</a></p></article><article class="board bot"><div class="b-head"><h3>High temperature: live bot</h3></div><p class="desc">Trades during the day using each weather station’s readings so far, paper trading at real prices and scoring every hour of the day separately.</p><p class="when">Every 10 minutes, 10 a.m.–4 p.m. local time</p><p class="status" data-src="/weather-live/status.json" data-kind="live">Checking…</p><p><a class="open" href="/weather-live/">Open live bot</a></p></article></div></div></section>
+<section><h2>How they’re judged</h2><article class="prose">
+<p>Every bot is backtested month by month using only data that existed at the time, with Kalshi’s fees
+included. Its live picks are logged at the prices it saw and scored when markets settle. A city or time of
+day earns “proven edge” only after at least 30 bets, with forecasts more accurate than the market and a 90%
+range on profit that stays above zero.</p>
+<p>More market types will get their own bots here over time.</p></article></section>
+<footer><p>A research project, not financial advice. Not affiliated with Kalshi.</p></footer>
+<script>
+document.querySelectorAll('.status').forEach(async el => {
+  try {
+    const r = await fetch(el.dataset.src, {cache: 'no-store'});
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    const t = new Date(d.generated.endsWith('Z') ? d.generated : d.generated);
+    const when = isNaN(t) ? '' : ' · updated ' + t.toLocaleString([], {month:'short', day:'numeric', hour:'numeric', minute:'2-digit'});
+    if (el.dataset.kind === 'forecast') {
+      const n = (d.picks || []).length;
+      el.textContent = (n ? n + (n === 1 ? ' bet' : ' bets') + ' today' : 'No bets today') + when;
+    } else {
+      const n = d.positions_today || 0;
+      el.textContent = n + (n === 1 ? ' paper position' : ' paper positions') + ' today' + when;
+    }
+  } catch (e) { el.textContent = 'Not published yet'; }
+});
+</script>
+</main><div id="tip" role="tooltip"></div>
+<script>
+const tip=document.getElementById('tip');
+function show(text,x,y){tip.textContent=text;tip.style.opacity=1;
+ const w=tip.offsetWidth;tip.style.left=Math.min(x+14,innerWidth-w-8)+'px';tip.style.top=(y+14)+'px';}
+function hide(){tip.style.opacity=0;}
+document.querySelectorAll('[data-tip]').forEach(el=>{
+ el.addEventListener('mousemove',e=>show(el.dataset.tip,e.clientX,e.clientY));
+ el.addEventListener('mouseleave',hide);
+ el.addEventListener('focus',()=>{const r=el.getBoundingClientRect();show(el.dataset.tip,r.left,r.top);});
+ el.addEventListener('blur',hide);});
+document.querySelectorAll('.eq-wrap').forEach(wrap=>{
+ const svg=wrap.querySelector('svg'),hit=wrap.querySelector('.eq-hit'),xh=wrap.querySelector('.xhair');
+ const {series,meta}=JSON.parse(wrap.querySelector('.eq-data').textContent);
+ const t0=new Date(meta.t0),day=864e5;
+ const fmt=v=>(v<0?'−$':'$')+Math.abs(v).toFixed(2);
+ hit.addEventListener('mousemove',e=>{
+  const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());
+  const days=(q.x-meta.L)/(meta.W-meta.L-meta.R)*meta.span;const target=new Date(+t0+days*day);
+  const lines=[];let label='';
+  for(const [name,pts] of Object.entries(series)){let best=null;
+   for(const [d,v] of pts){if(new Date(d)<=target)best=[d,v];}
+   if(best){lines.push(name+': '+fmt(best[1]));label=label||best[0];}}
+  if(!lines.length){hide();return;}
+  xh.setAttribute('x1',q.x);xh.setAttribute('x2',q.x);xh.setAttribute('visibility','visible');
+  show(target.toISOString().slice(0,10)+'  '+lines.join(', '),e.clientX,e.clientY);});
+ hit.addEventListener('mouseleave',()=>{xh.setAttribute('visibility','hidden');hide();});
+});
+</script></body></html>
