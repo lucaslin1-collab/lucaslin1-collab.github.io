@@ -1,0 +1,239 @@
+{
+  "week": "2026-11-16",
+  "end": "2026-11-22",
+  "bots": {
+    "8 a.m. picks": {
+      "bets": 1,
+      "won": 1,
+      "lost": 0,
+      "open": 0,
+      "profit": 0.11,
+      "usd100": 12.5
+    },
+    "Day-before picks": {
+      "bets": 3,
+      "won": 2,
+      "lost": 1,
+      "open": 0,
+      "profit": 0.6600000000000001,
+      "usd100": 66.31848438300057
+    },
+    "Live bot": {
+      "bets": 3,
+      "won": 2,
+      "lost": 1,
+      "open": 0,
+      "profit": -6.519999999999999,
+      "usd100": -34.33763677725029
+    }
+  },
+  "running": {
+    "8 a.m. picks": {
+      "n": 1,
+      "actual": 0.125,
+      "profit": 0.11,
+      "usd100": 12.5,
+      "expected": 0.039551056735684806,
+      "band": [
+        -1.161518505150888,
+        1.2406206186222575
+      ],
+      "status": "Too early to tell"
+    },
+    "Day-before picks": {
+      "n": 3,
+      "actual": 0.22106161461000187,
+      "profit": 0.6600000000000001,
+      "usd100": 66.31848438300057,
+      "expected": 0.07575247148074492,
+      "band": [
+        -0.788680506008054,
+        0.9401854489695438
+      ],
+      "status": "Too early to tell"
+    },
+    "Live bot": {
+      "n": 3,
+      "actual": -0.11445878925750097,
+      "profit": -6.519999999999999,
+      "usd100": -34.33763677725029,
+      "expected": -0.05294275787340601,
+      "band": [
+        -0.7209050826235909,
+        0.615019566876779
+      ],
+      "status": "Too early to tell"
+    }
+  },
+  "picks": [
+    {
+      "bot": "Day-before picks",
+      "date": "Sun Nov 22",
+      "city": "New York (Central Park)",
+      "label": "\u226460\u00b0",
+      "side": "NO",
+      "price": 0.4499999999999999,
+      "won": true,
+      "usd100": 117.7777777777778,
+      "high": 61.0
+    },
+    {
+      "bot": "Day-before picks",
+      "date": "Sun Nov 22",
+      "city": "Oklahoma City",
+      "label": "61\u201362\u00b0",
+      "side": "NO",
+      "price": 0.62,
+      "won": true,
+      "usd100": 58.06451612903225,
+      "high": 60.0
+    },
+    {
+      "bot": "Live bot",
+      "date": "Fri Nov 20",
+      "city": "Denver",
+      "label": "\u226565\u00b0",
+      "side": "YES",
+      "price": 0.66,
+      "won": true,
+      "usd100": 49.09090909090909,
+      "high": 65.0
+    },
+    {
+      "bot": "Day-before picks",
+      "date": "Sun Nov 22",
+      "city": "Los Angeles (LAX)",
+      "label": "69\u201370\u00b0",
+      "side": "YES",
+      "price": 0.21,
+      "won": false,
+      "usd100": -109.52380952380949,
+      "high": 68.0
+    },
+    {
+      "bot": "Live bot",
+      "date": "Sun Nov 22",
+      "city": "Philadelphia",
+      "label": "67\u201368\u00b0",
+      "side": "NO",
+      "price": 0.81,
+      "won": false,
+      "usd100": -101.33744855967078,
+      "high": 67.0
+    },
+    {
+      "bot": "8 a.m. picks",
+      "date": "Sun Nov 22",
+      "city": "Los Angeles (LAX)",
+      "label": "65\u201366\u00b0",
+      "side": "NO",
+      "price": 0.88,
+      "won": true,
+      "usd100": 12.5,
+      "high": 68.0
+    }
+  ],
+  "changes": null,
+  "drift": {
+    "8 a.m. picks": {
+      "n": 1,
+      "ret": 0.125,
+      "expected": 0.039551056735684806
+    },
+    "Day-before picks": {
+      "n": 3,
+      "ret": 0.22106161461000187,
+      "expected": 0.07575247148074492
+    },
+    "Live bot": {
+      "n": 3,
+      "ret": -0.11445878925750097,
+      "expected": -0.05294275787340601
+    }
+  },
+  "health": [],
+  "health_notes": [
+    "Checked Sun Nov 22. The live bot completed 78 ten-minute checks."
+  ],
+  "verdicts": {
+    "8 a.m. picks": {
+      "Austin": "unproven",
+      "Chicago (Midway)": "unproven",
+      "Denver": "unproven",
+      "Los Angeles (LAX)": "edge",
+      "Miami": "unproven",
+      "New York (Central Park)": "unproven",
+      "Philadelphia": "unproven",
+      "Atlanta": "unproven",
+      "Boston": "edge",
+      "Dallas (DFW)": "unproven",
+      "Washington DC (DCA)": "unproven",
+      "Newark": "unproven",
+      "Houston (Hobby)": "unproven",
+      "Las Vegas": "unproven",
+      "Minneapolis": "unproven",
+      "New Orleans": "unproven",
+      "Oklahoma City": "unproven",
+      "Phoenix": "unproven",
+      "San Diego": "unproven",
+      "San Antonio": "unproven",
+      "Louisville": "unproven",
+      "Seattle": "unproven",
+      "San Francisco (SFO)": "unproven",
+      "Trenton": "unproven"
+    },
+    "Day-before picks": {
+      "Austin": "unproven",
+      "Chicago (Midway)": "unproven",
+      "Denver": "unproven",
+      "Los Angeles (LAX)": "edge",
+      "Miami": "edge",
+      "New York (Central Park)": "edge",
+      "Philadelphia": "unproven",
+      "Atlanta": "unproven",
+      "Boston": "unproven",
+      "Dallas (DFW)": "unproven",
+      "Washington DC (DCA)": "unproven",
+      "Newark": "unproven",
+      "Houston (Hobby)": "unproven",
+      "Las Vegas": "edge",
+      "Minneapolis": "unproven",
+      "New Orleans": "unproven",
+      "Oklahoma City": "unproven",
+      "Phoenix": "unproven",
+      "San Diego": "unproven",
+      "San Antonio": "unproven",
+      "Louisville": "unproven",
+      "Seattle": "unproven",
+      "San Francisco (SFO)": "unproven",
+      "Trenton": "unproven"
+    },
+    "Live bot": {
+      "Austin": "unproven",
+      "Chicago (Midway)": "unproven",
+      "Denver": "unproven",
+      "Los Angeles (LAX)": "unproven",
+      "Miami": "unproven",
+      "New York (Central Park)": "unproven",
+      "Philadelphia": "unproven",
+      "Atlanta": "unproven",
+      "Boston": "unproven",
+      "Dallas (DFW)": "unproven",
+      "Washington DC (DCA)": "unproven",
+      "Newark": "unproven",
+      "Houston (Hobby)": "unproven",
+      "Las Vegas": "unproven",
+      "Minneapolis": "unproven",
+      "New Orleans": "unproven",
+      "Oklahoma City": "unproven",
+      "Phoenix": "unproven",
+      "San Diego": "unproven",
+      "San Antonio": "unproven",
+      "Louisville": "unproven",
+      "Seattle": "unproven",
+      "San Francisco (SFO)": "unproven",
+      "Trenton": "unproven"
+    }
+  },
+  "generated": "2026-11-23T15:07-05:00"
+}

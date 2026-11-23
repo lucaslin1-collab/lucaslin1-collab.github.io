@@ -1,19 +1,22 @@
 # Publishes this folder as the hub site at https://<user>.github.io
+# On Mondays (and when started by hand) it first builds the weekly recap from both bot repos.
 name: Publish hub
 
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "23 20 * * 1"   # Mondays 20:23 UTC, after the 2:07 p.m. Eastern run settles Sunday's picks
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -23,6 +26,48 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Check out the forecast bot
+        if: github.event_name != 'push'
+        uses: actions/checkout@v6
+        with:
+          repository: lucaslin1-collab/lucaslinweather
+          path: _fc
+
+      - name: Check out the live bot
+        if: github.event_name != 'push'
+        uses: actions/checkout@v6
+        with:
+          repository: lucaslin1-collab/weather-live
+          path: _live
+
+      - uses: actions/setup-python@v6
+        if: github.event_name != 'push'
+        with:
+          python-version: "3.12"
+
+      - name: Build the weekly recap
+        if: github.event_name != 'push'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          pip install --quiet pandas numpy
+          python weekly.py --forecast _fc --live _live
+          rm -rf _fc _live
+
+      - name: Save the recap
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add weekly
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Weekly recap $(date -u +%Y-%m-%d)"
+          git pull --rebase -X theirs origin main
+          git push
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
